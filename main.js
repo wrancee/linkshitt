@@ -1918,6 +1918,7 @@ LinkGame2.prototype = {
 };
 
 
+//log in functions
 $(function () {
   $('.login-btn').click(async function () {
       if (window.solana && window.solana.isPhantom) {
@@ -1926,22 +1927,158 @@ $(function () {
               let defAddress = window.solana.publicKey;
               const address = defAddress.toString();
               $('#wallet-address').text(`Connected wallet address: ${address}`);
-          } catch (error) {
-              console.error('Failed to connect to the wallet:', error);
-          }
-      } else {
-          alert('Please install a Solana wallet extension like Phantom.');
-      }
+
+              const isRegistered = await checkAddressRegistration(address);
+                if (isRegistered) {
+                  await loginWithWallet(address);
+                  $('audio').get(0).play();
+                  $('.login').addClass('hidden');
+                  $('.init-box').removeClass('hidden');
+                } else {
+                    console.log('The address is not registered.');
+                    $('.login').addClass('hidden');
+                    $('.newPlayer').removeClass('hidden');
+                }
+            } catch (error) {
+                console.error('Failed to connect to the wallet:', error);
+            }
+        } else {
+            alert('Please install a Solana wallet extension like Phantom.');
+        }
   });
 });
 
-//$(function () {
-  //$('.login-btn').click(function () {
-    //$('audio').get(0).play();
-    //$('.login').addClass('hidden');
-    //$('.init-box').removeClass('hidden');
-  //});
-//});
+$(function () {
+  $('.claim').click(async function () {
+    const address = $('#wallet-address').text();
+        if (address) {
+            await claimAndRegisterUser(address);
+        } else {
+            alert('No wallet address found. Please connect your wallet first.');
+        }
+  });
+});
+
+async function checkAddressRegistration(address) {
+  try {
+      const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/isAddressRegistered', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ nativeAddress: address }),
+      });
+
+      if (!response.ok) {
+          throw new Error(`API request failed with status ${response.status}`);
+      }
+
+      const result = await response.json();
+      return result.data; // Assuming 'data' field in the response contains the registration status
+  } catch (error) {
+      console.error('Error checking address registration:', error);
+      return false;
+  }
+}
+
+async function loginWithWallet(address) {
+  const nonce = Date.now().toString();
+  const message = `Login with wallet: ${address}, nonce: ${nonce}`;
+  const encodedMessage = new TextEncoder().encode(message);
+  const signature = await window.solana.signMessage(encodedMessage, 'utf8');
+
+  try {
+      const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/loginWithWallet', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              nativeAccount: address,
+              nonce: nonce,
+              sign: signature,
+          }),
+      });
+
+      if (!response.ok) {
+          throw new Error(`Login API request failed with status ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('Login successful, JWT token:', result.Access);
+      // Store the JWT token or handle it as needed
+  } catch (error) {
+      console.error('Error logging in:', error);
+  }
+}
+
+async function claimAndRegisterUser(address) {
+  const nonce = Date.now().toString();
+  const userName = generateRandomUsername();
+  const tokenSymbol = "OShit";
+  const brand = "OShit";
+
+  // Create the message to be signed
+  const message = `Claim and register user: ${address}, nonce: ${nonce}, userName: ${userName}`;
+  const encodedMessage = new TextEncoder().encode(message);
+  const signature = await window.solana.signMessage(encodedMessage, 'utf8');
+
+  // Simulate creating and signing the binary transaction (encodedTx)
+  const encodedTx = await signTransaction(address);
+
+  try {
+      const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/claimAndRegisterUser', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              brand: brand,
+              tokenSymbol: tokenSymbol,
+              encodedTx: encodedTx,
+              userName: userName,
+              nonce: nonce,
+              sign: signature,
+          }),
+      });
+
+      if (!response.ok) {
+          throw new Error(`Claim and register API request failed with status ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('Claim and register successful, Transaction ID:', result);
+  } catch (error) {
+      console.error('Error claiming and registering user:', error);
+  }
+}
+
+function generateRandomUsername() {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let username = 'User_';
+  for (let i = 0; i < 8; i++) {
+      username += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return username;
+}
+
+async function signTransaction(address) {
+  // This function should create and sign the binary transaction using the Solana wallet.
+  // Here we are simulating this step as it depends on the specifics of your transaction and wallet.
+
+  // Placeholder code for creating a transaction
+  const transaction = new Uint8Array([/* ...transaction bytes... */]);
+
+  // Sign the transaction using the wallet
+  const signedTransaction = await window.solana.signTransaction(transaction);
+
+  // Encode the signed transaction as a base64 string
+  const encodedTx = btoa(String.fromCharCode(...signedTransaction));
+
+  return encodedTx;
+}
+
+
 
 $(function () {
   $('.start-game').click(function () {
@@ -2124,3 +2261,4 @@ window.onload = () => {
       document.querySelector('.normalbg').classList.add('animation-start');
   });
 };
+
