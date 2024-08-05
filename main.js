@@ -1951,17 +1951,11 @@ $(function () {
 $(function () {
   $('.claim').click(async function () {
     const address = $('#wallet-address').text();
-    if (address) {
-      try {
-        const txId = await claimAndRegisterUser(address);
-        console.log('Transaction ID:', txId);
-        // Handle the transaction ID as needed
-      } catch (error) {
-        console.error('Failed to claim and register user:', error);
-      }
-    } else {
-      alert('No wallet address found. Please connect your wallet first.');
-    }
+        if (address) {
+            await claimAndRegisterUser(address);
+        } else {
+            alert('No wallet address found. Please connect your wallet first.');
+        }
   });
 });
 
@@ -2018,52 +2012,41 @@ async function loginWithWallet(address) {
   }
 }
 
-import axios from 'axios'; // Ensure axios is imported
-
-export const claimAndRegisterUser = async (address) => {
-  const nonce = new Date().getTime().toString();
+async function claimAndRegisterUser(address) {
+  const nonce = Date.now().toString();
   const userName = generateRandomUsername();
-  const tokenSymbol = 'OShit';
-  const brand = 'OShit';
-
-  // Prepare the message for signing
+  const tokenSymbol = "OShit";
+  const brand = "OShit";
   const message = `I am registering for this game SHIT Match for token OShit with my address ${address} with nonce ${nonce}`;
   const signedMessage = await window.solana.signMessage(new TextEncoder().encode(message), 'utf8');
-
-  // Sign the transaction and encode it
   const encodedTx = await signTransaction(address);
 
-  // Prepare the parameters and form data
-  const params = {
-    brand: brand,
-    tokenSymbol: tokenSymbol,
-    encodedTx: encodedTx,
-    userName: userName,
-    nonce: nonce,
-    sign: bs58.encode(signedMessage.signature || '')
-  };
-
   try {
-    // Make the POST request to the API
-    const response = await axios.post('https://testnet.oshit.io/meme/api/v1/sol/game/claimAndRegisterUser', params, {
-      headers: {
-        'Content-Type': 'application/json',
+      const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/claimAndRegisterUser', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              brand: brand,
+              tokenSymbol: tokenSymbol,
+              encodedTx: encodedTx,
+              userName: userName,
+              nonce: nonce,
+              sign: signedMessage,
+          }),
+      });
+
+      if (!response.ok) {
+          throw new Error(`Claim and register API request failed with status ${response.status}`);
       }
-    });
 
-    // Check for errors in the response
-    if (response.data.code !== 0) {
-      throw new Error(response.data.msg);
-    }
-
-    // Return the transaction ID
-    return response.data.data;
+      const result = await response.json();
+      console.log('Claim and register successful, Transaction ID:', result.txId);
   } catch (error) {
-    console.error('Error claiming and registering user:', error);
-    throw error; // Rethrow the error for handling in calling context
+      console.error('Error claiming and registering user:', error);
   }
-};
-
+}
 
 function generateRandomUsername() {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
