@@ -1,7 +1,5 @@
 'use strict';
 
-import bs58 from 'bs58';
-
 function LinkGame(config) {
   if (!(this instanceof LinkGame)) {
     return new LinkGame(config);
@@ -2015,7 +2013,7 @@ async function loginWithWallet(address) {
 }
 
 async function claimAndRegisterUser(address) {
-  const nonce = new Date().getTime();
+  const nonce = Date.now().toString();
   const userName = generateRandomUsername();
   const tokenSymbol = "OShit";
   const brand = "OShit";
@@ -2036,7 +2034,7 @@ async function claimAndRegisterUser(address) {
               encodedTx: encodedTx,
               userName: userName,
               nonce: nonce,
-              sign: bs58.encode(signedMessage.signature || '')
+              sign: signedMessage,
           }),
       });
 
