@@ -59,7 +59,7 @@ $(function () {
     }
 
     // 调用后端API
-    async function callBackendAPI() {
+    async function callBackendAPI(signature) {
         const nonce = Date.now().toString();
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let username = 'User_';
@@ -74,14 +74,6 @@ $(function () {
       try {
         const signedMessage = await window.solana.signMessage(new TextEncoder().encode(message), 'utf8');
 
-    // Prepare the transaction to be signed
-        const { transaction, encodedTx } = await prepareTransaction(address);
-
-    // Sign the transaction with the wallet
-        const signedTransaction = await window.solana.signTransaction(transaction);
-        const encodedTransaction = bs58.encode(signedTransaction.serialize());
-        console.log('Transaction signed successfully.');
-
         const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/claimAndRegisterUser', {
           method: 'POST',
           headers: {
@@ -93,7 +85,7 @@ $(function () {
             encodedTx: t,
             userName: userName,
             nonce: nonce,
-            sign: bs58.encode(signedMessage.signature || ''),
+            sign: signedMessage,
           }),
         });
         const data = await response.json();
@@ -107,10 +99,9 @@ $(function () {
     async function main() {
       const publicKey = await connectWallet();
       if (publicKey) {
-        const userName = 'YourUserName'; // 替换为实际的用户名
         const signature = await claimToken(publicKey);
         if (signature) {
-          await callBackendAPI(signature, userName);
+          await callBackendAPI(signature);
         }
       }
     }
