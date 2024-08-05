@@ -2012,8 +2012,6 @@ async function loginWithWallet(address) {
   }
 }
 
-import bs58 from 'bs58'; // Ensure bs58 is imported for encoding
-
 async function claimAndRegisterUser(address) {
   const nonce = Date.now().toString();
   const userName = generateRandomUsername();
