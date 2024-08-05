@@ -1,0 +1,709 @@
+* {
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+}
+
+.wrapper {
+  position: relative;
+  width: 800px;
+  height: 660px;
+  /*border: 1px solid #ccc;*/
+  margin: 0 auto;
+  background: url('assets/bg.png') no-repeat center center/cover;
+}
+
+.wrapper .normalbg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  animation: normalSwitch 2.4s steps(12) infinite;
+}
+
+@keyframes normalSwitch {
+  0% { background: url('images/background/bg3.png') no-repeat center center/cover; }
+  8.33% { background: url('images/background/n1.png') no-repeat center center/cover; }
+  16.66% { background: url('images/background/n2.png') no-repeat center center/cover; }
+  25% { background: url('images/background/n3.png') no-repeat center center/cover; }
+  33.33% { background: url('images/background/n4.png') no-repeat center center/cover; }
+  41.66% { background: url('images/background/n5.png') no-repeat center center/cover; }
+  50% { background: url('images/background/n6.png') no-repeat center center/cover; }
+  58.33% { background: url('images/background/n7.png') no-repeat center center/cover; }
+  66.66% { background: url('images/background/n8.png') no-repeat center center/cover; }
+  75% { background: url('images/background/n9.png') no-repeat center center/cover; }
+  83.33% { background: url('images/background/n10.png') no-repeat center center/cover; }
+  91.66% { background: url('images/background/n11.png') no-repeat center center/cover; }
+  100% { background: url('images/background/n11.png') no-repeat center center/cover; }
+}
+
+.wrapper .limitedbg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  animation: limitedSwitch 2.4s steps(12) infinite;
+}
+
+@keyframes limitedSwitch {
+  0% { background: url('images/background/l1.png') no-repeat center center/cover; }
+  8.33% { background: url('images/background/l2.png') no-repeat center center/cover; }
+  16.66% { background: url('images/background/l3.png') no-repeat center center/cover; }
+  25% { background: url('images/background/l4.png') no-repeat center center/cover; }
+  33.33% { background: url('images/background/l5.png') no-repeat center center/cover; }
+  41.66% { background: url('images/background/l6.png') no-repeat center center/cover; }
+  50% { background: url('images/background/l7.png') no-repeat center center/cover; }
+  58.33% { background: url('images/background/l8.png') no-repeat center center/cover; }
+  66.66% { background: url('images/background/l9.png') no-repeat center center/cover; }
+  75% { background: url('images/background/l10.png') no-repeat center center/cover; }
+  83.33% { background: url('images/background/l11.png') no-repeat center center/cover; }
+  91.66% { background: url('images/background/l12.png') no-repeat center center/cover; }
+  100% { background: url('images/background/l12.png') no-repeat center center/cover; }
+}
+
+.wrapper .login {
+  position: relative; 
+  width: 100%;
+  height: 100%;
+  animation: turn 1s infinite;
+}
+
+@keyframes turn {
+  0% {background: url('images/background/main1.png') no-repeat center center/cover;}
+  
+  33.33% {background: url('images/background/main2.png') no-repeat center center/cover;}
+
+  66.66% {background: url('images/background/main3.png') no-repeat center center/cover;}
+
+  100% {background: url('images/background/main1.png') no-repeat center center/cover;}
+}
+.wrapper .login .left2{
+  position: relative;
+  width: 800px;
+  height: 660px;
+  margin: 0 auto;
+  background: url('assets/topleft.png') center no-repeat;
+}
+.wrapper .login .rule{
+  position: absolute;
+  cursor: pointer;
+  left: 16px;
+  top: 20px;
+  width: 45px;
+  height: 41px;
+  background-size: auto;
+  background: url('assets/shitt.png') center no-repeat;
+}
+
+.wrapper .login .login-btn {
+  position: absolute;
+  bottom: 133px;
+  left: 303px;
+
+  width: 217px;
+  height: 84px;
+  margin: 0 auto;
+
+  cursor: pointer;
+}
+
+.wrapper .login .start-game {
+  position: absolute;
+  bottom: 16px;
+  left: 303px;
+
+  width: 217px;
+  height: 84px;
+  margin: 0 auto;
+
+  cursor: pointer;
+}
+
+.wrapper .init-box {
+  position: relative; 
+  width: 100%;
+  height: 100%;
+  animation: switch 1s infinite;
+}
+
+@keyframes switch {
+  0% {background: url('images/background/bg1.png') no-repeat center center/cover;}
+  
+  33.33% {background: url('images/background/bg2.png') no-repeat center center/cover;}
+
+  66.66% {background: url('images/background/bg3.png') no-repeat center center/cover;}
+
+  100% {background: url('images/background/bg1.png') no-repeat center center/cover;}
+}
+
+.wrapper .init-box .left{
+  position: relative;
+  width: 800px;
+  height: 660px;
+  margin: 0 auto;
+  background: url('assets/topleft.png') center no-repeat;
+}
+
+.wrapper .bag{
+  position: absolute;
+  width: 800px;
+  height: 660px;
+  background: rgba(0, 0, 0, .4) url('assets/bag.png') center no-repeat;
+}
+
+.wrapper .bag .logo1{
+  position: absolute;
+  left: 16px;
+  top: 20px;
+  width: 45px;
+  height: 41px;
+  background-size: auto;
+  background: url('assets/shitt.png') center no-repeat;
+}
+
+.wrapper .bag .close{
+  position: absolute;
+  cursor: pointer;
+  left: 380px;
+  bottom: 60px;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto;
+}
+
+.wrapper .init-box .bag-btn{
+  position: absolute;
+  cursor: pointer;
+  left: 14px;
+  top: 80px;
+  width: 50px;
+  height: 60px;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.wrapper .init-box .logo{
+  position: absolute;
+  cursor: pointer;
+  left: 16px;
+  top: 20px;
+  width: 45px;
+  height: 41px;
+  background-size: auto;
+  background: url('assets/shitt.png') center no-repeat;
+}
+
+.wrapper .init-box .start-btn1 {
+  position: absolute;
+  bottom: 133px;
+  left: 303px;
+  width: 217px;
+  height: 84px;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.wrapper .init-box .start-btn2 {
+  position: absolute;
+  bottom: 16px;
+  left: 303px;
+  width: 217px;
+  height: 84px;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.wrapper .game-box {
+  position: relative; 
+  
+  width: 100%;
+}
+
+.wrapper .game-box .toolbar {
+  font-size: 24px;
+  line-height: 94px;
+
+  position: relative; 
+
+  width: 100%;
+  height: 94px;
+
+  background: url('assets/toolbar3.png') center no-repeat;
+  background-size: cover;
+}
+
+.wrapper .game-box .toolbar .time {
+  line-height: 34px; 
+
+  position: absolute;
+  top: 20px;
+  left: 130px;
+}
+
+.wrapper .game-box .toolbar .level {
+  line-height: 34px; 
+
+  position: absolute;
+  top: 18px;
+  left: 294px;
+
+  height: 34px;
+}
+
+.wrapper .game-box .toolbar .level img {
+  height: 34px;
+}
+
+.wrapper .game-box .toolbar .disorder {
+  position: absolute;
+  left: 341px;
+
+  width: 120px;
+  height: 84px;
+
+  cursor: pointer;
+}
+
+.wrapper .game-box .toolbar .disorder img {
+  position: absolute;
+  top: 40px; 
+  right: 0;
+}
+
+.wrapper .game-box .toolbar .scoring {
+  line-height: 34px;
+
+  position: absolute;
+  top: 20px;
+  left: 622px;
+
+  width: 251px;
+  height: 34px;
+
+  cursor: pointer;
+}
+
+.wrapper .game-box .toolbar .scoring img {
+  height: 30px;
+}
+
+.wrapper .game-box .game-area {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper .game-box .game-area table#game {
+  border-spacing: 0; 
+  border-collapse: collapse;
+}
+
+.wrapper .game-box .game-area table#game .game-row {
+  height: 80px;
+}
+
+.wrapper .game-box .game-area table#game .game-row td {
+  width: 80px;
+  height: 80px;
+
+  text-align: center;
+  vertical-align: middle;
+}
+
+.wrapper .game-box .game-area table#game .game-row td .pic-box {
+  line-height: 64px;
+
+  display: inline-block;
+
+  width: 64px;
+  height: 64px;
+
+  cursor: pointer;
+
+  background: url('assets/pic-bg1.png') center no-repeat;
+  background-size: contain;
+}
+
+.wrapper .game-box .game-area table#game .game-row td .pic-box.active {
+  width: 80px;
+  height: 80px;
+
+  border-radius: 16px; 
+  background: url('assets/active1.png') center no-repeat;
+  background-size: 124%;
+}
+
+.wrapper .game-box .game-area table#game .game-row td .pic-box img {
+  vertical-align: middle;
+  width: auto;
+  height: auto;
+  max-width: 75%;
+  max-height: 75%;
+}
+
+.wrapper .game-box .game-area #canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 800px;
+  height: 560px;
+}
+
+.wrapper .level1 {
+  position: absolute;
+  top: 0;
+  width: 800px;
+  height: 660px;
+  background-color: rgba(0, 0, 0, 0.4);
+  background-size: auto;
+}
+.wrapper .level1 .t1 {
+  position: absolute;
+  top: 0;
+  width: 800px;
+  height: 660px;
+  background: url('assets/100.png') center no-repeat;
+  background-size: auto;
+  animation: appear 0.6s linear, scale-up 0.6s linear;
+}
+
+.wrapper .level2 {
+  position: absolute;
+  top: 0;
+  width: 800px;
+  height: 660px;
+  background-color: rgba(0, 0, 0, 0.4);
+  background-size: auto;
+}
+.wrapper .level2 .t2 {
+  position: absolute;
+  top: 0;
+  width: 800px;
+  height: 660px;
+  background: url('assets/300.png') center no-repeat;
+  background-size: auto;
+  animation: appear 0.6s linear, scale-up 0.6s linear;
+}
+
+.wrapper .level3 {
+  position: absolute;
+  top: 0;
+  width: 800px;
+  height: 660px;
+  background-color: rgba(0, 0, 0, 0.4);
+  background-size: auto;
+}
+.wrapper .level3 .t3 {
+  position: absolute;
+  top: 0;
+  width: 800px;
+  height: 660px;
+  background: url('assets/600.png') center no-repeat;
+  background-size: auto;
+  animation: appear 0.6s linear, scale-up 0.6s linear;
+}
+
+.wrapper .level4 {
+  position: absolute;
+  top: 0;
+  width: 800px;
+  height: 660px;
+  background-color: rgba(0, 0, 0, 0.4);
+  background-size: auto;
+}
+.wrapper .level4 .t4 {
+  position: absolute;
+  top: 0;
+  width: 800px;
+  height: 660px;
+  background: url('assets/1000.png') center no-repeat;
+  background-size: auto;
+  animation: appear 0.6s linear, scale-up 0.6s linear;
+}
+
+.wrapper .level5 {
+  position: absolute;
+  top: 0;
+  width: 800px;
+  height: 660px;
+  background-color: rgba(0, 0, 0, 0.4);
+  background-size: auto;
+}
+.wrapper .level5 .t5 {
+  position: absolute;
+  top: 0;
+  width: 800px;
+  height: 660px;
+  background: url('assets/1500.png') center no-repeat;
+  background-size: auto;
+  animation: appear 0.6s linear, scale-up 0.6s linear;
+}
+@keyframes scale-up {
+  from {
+    transform: scale(0.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.wrapper .game-win {
+  position: absolute;
+  top: 0;
+
+  width: 800px;
+  height: 660px;
+
+  background: rgba(0, 0, 0, .4) url('assets/gamewin.png') center no-repeat;
+  background-size: auto;
+}
+
+.wrapper .game-win .current {
+  position: absolute;
+  top: 320px;
+  left: 241px;
+
+  width: 350px;
+  height: 60px;
+
+  text-align: center;
+}
+
+.wrapper .game-win .get-token2 {
+  position: absolute;
+  top: 473px;
+  left: 147px;
+
+  width: 149px;
+  height: 79px;
+
+  cursor: pointer;
+}
+
+.wrapper .game-win .back-btn2 {
+  position: absolute;
+  top: 473px;
+  left: 522px;
+
+  width: 149px;
+  height: 79px;
+
+  cursor: pointer;
+}
+
+.wrapper .time-out {
+  position: absolute;
+  top: 0;
+
+  width: 800px;
+  height: 660px;
+
+  background: rgba(0, 0, 0, .4) url('assets/timeout.png') center no-repeat;
+  background-size: auto;
+}
+
+.wrapper .time-out .current-score3 {
+  position: absolute;
+  top: 286px;
+  left: 271px;
+
+  width: 350px;
+  height: 60px;
+
+  text-align: center;
+}
+
+.wrapper .time-out .back-btn3 {
+  position: absolute;
+  top: 423px;
+  left: 465px;
+
+  width: 149px;
+  height: 79px;
+
+  cursor: pointer;
+}
+
+.wrapper .time-out .get-token3 {
+  position: absolute;
+  top: 423px;
+  left: 235px;
+
+  width: 149px;
+  height: 79px;
+
+  cursor: pointer;
+}
+
+.wrapper .game-over {
+  position: absolute;
+  top: 0;
+
+  width: 800px;
+  height: 660px;
+
+  background: rgba(0, 0, 0, .4) url('assets/gameover.png') center no-repeat;
+  background-size: auto;
+}
+
+.wrapper .game-over .current-score {
+  position: absolute;
+  top: 232px;
+  left: 308px;
+
+  width: 350px;
+  height: 60px;
+
+  text-align: center;
+}
+
+.wrapper .game-over .replay-btn {
+  position: absolute;
+  top: 483px;
+  left: 116px;
+
+  width: 149px;
+  height: 79px;
+
+  cursor: pointer;
+}
+.wrapper .game-over .back-btn {
+  position: absolute;
+  top: 483px;
+  left: 587px;
+
+  width: 149px;
+  height: 79px;
+
+  cursor: pointer;
+}
+
+.wrapper .game-over .get-token {
+  position: absolute;
+  top: 483px;
+  left: 351px;
+
+  width: 149px;
+  height: 79px;
+
+  cursor: pointer;
+}
+
+.empty {
+  opacity: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.number {
+  display: inline-block;
+
+  width: 34px; 
+  height: 34px;
+
+  background-size: contain;
+}
+
+.wrapper .brandon{
+  position: absolute;
+  top: 86px;
+  color: rgb(196, 23, 23);
+  text-shadow: 3px 3px 3px white;
+  padding: 20px;
+  font-size: 30px;
+  font-family: 'Crang', sans-serif;
+  word-spacing: 6px;
+  line-height: 1.3;
+  z-index: 1000;
+  animation: appear 0.6s linear, scale-up 0.6s linear;
+}
+.wrapper .biden{
+  position: absolute; 
+  top: 86px; 
+  color: rgb(196, 23, 23);
+  text-shadow: 3px 3px 3px white;
+  padding: 20px;
+  font-size: 30px;
+  font-family: 'Crang', sans-serif;
+  word-spacing: 6px;
+  line-height: 1.3;
+  z-index: 1000;
+  animation: appear 0.6s linear, scale-up 0.6s linear;
+}
+
+.wrapper .trump{
+  position: absolute; 
+  top: 86px;
+  color: rgb(196, 23, 23);
+  text-shadow: 3px 3px 3px white;
+  padding: 20px;
+  font-size: 30px;
+  font-family: 'Crang', sans-serif;
+  word-spacing: 6px;
+  line-height: 1.3;
+  z-index: 1000;
+  animation: appear 0.6s linear, scale-up 0.6s linear;
+}
+
+.wrapper .harris{
+  position: absolute; 
+  top: 86px;
+  color: rgb(196, 23, 23);
+  text-shadow: 3px 3px 3px white;
+  padding: 20px;
+  font-size: 30px;
+  font-family: 'Crang', sans-serif;
+  word-spacing: 6px;
+  line-height: 1.3;
+  z-index: 1000;
+  animation: appear 0.6s linear, scale-up 0.6s linear;
+}
+
+.wrapper .boo{
+  position: absolute; 
+  top: 86px;
+  color: rgb(196, 23, 23);
+  text-shadow: 3px 3px 3px white;
+  padding: 20px;
+  font-size: 30px;
+  font-family: 'Crang', sans-serif;
+  word-spacing: 6px;
+  line-height: 1.3;
+  z-index: 1000;
+  animation: appear 0.6s linear, scale-up 0.6s linear;
+}
+
+.wrapper .satoshi{
+  position: absolute; 
+  top: 86px;
+  color: rgb(196, 23, 23);
+  text-shadow: 3px 3px 3px white;
+  padding: 20px;
+  font-size: 30px;
+  font-family: 'Crang', sans-serif;
+  word-spacing: 6px;
+  line-height: 1.3;
+  z-index: 1000;
+  animation: appear 0.6s linear, scale-up 0.6s linear;
+}
+
+@font-face {
+  font-family: 'Crang';
+  src: url('Crang.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
