@@ -120,6 +120,26 @@
   cursor: pointer;
 }
 
+.wrapper .newPlayer{
+  position: absolute;
+  top: 0;
+  width: 800px;
+  height: 660px;
+  background: rgba(0, 0, 0, .4) url('c.png') center no-repeat;
+  background-size: auto;
+}
+
+.wrapper .newPlayer .claim{
+  position: absolute;
+  top: 483px;
+  left: 116px;
+
+  width: 149px;
+  height: 79px;
+
+  cursor: pointer;
+}
+
 .wrapper .init-box {
   position: relative; 
   width: 100%;
