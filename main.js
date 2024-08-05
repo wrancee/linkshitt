@@ -2019,6 +2019,7 @@ async function claimAndRegisterUser(address) {
   const brand = "OShit";
   const message = `I am registering for this game SHIT Match for token OShit with my address ${address} with nonce ${nonce}`;
   const signedMessage = await window.solana.signMessage(new TextEncoder().encode(message), 'utf8');
+
   const encodedTx = await signTransaction(address);
 
   try {
@@ -2043,6 +2044,7 @@ async function claimAndRegisterUser(address) {
 
       const result = await response.json();
       console.log('Claim and register successful, Transaction ID:', result.txId);
+      // Handle the transaction ID as needed
   } catch (error) {
       console.error('Error claiming and registering user:', error);
   }
