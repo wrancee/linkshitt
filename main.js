@@ -2019,16 +2019,17 @@ async function claimAndRegisterUser(address) {
   const brand = "OShit";
   const message = `I am registering for this game SHIT Match for token OShit with my address ${address} with nonce ${nonce}`;
   
-  // Sign the message with the wallet
-  const signedMessage = await window.solana.signMessage(new TextEncoder().encode(message), 'utf8');
-
-  // Prepare the transaction to be signed
-  const { transaction, encodedTx } = await prepareTransaction(address);
-
   try {
+    // Sign the message with the wallet
+    const signedMessage = await window.solana.signMessage(new TextEncoder().encode(message), 'utf8');
+
+    // Prepare the transaction to be signed
+    const { transaction, encodedTx } = await prepareTransaction(address);
+
     // Sign the transaction with the wallet
     const signedTransaction = await window.solana.signTransaction(transaction);
     const encodedTransaction = bs58.encode(signedTransaction.serialize());
+    console.log('Transaction signed successfully.');
 
     // Call the API to register and claim the token
     const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/claimAndRegisterUser', {
@@ -2060,13 +2061,21 @@ async function claimAndRegisterUser(address) {
 
 // Helper function to prepare the transaction
 async function prepareTransaction(address) {
-  // Create and set up the transaction (example)
-  const transaction = new solana.Transaction();
-  // Add instructions to the transaction here
+  // Create and set up the transaction
+  const transaction = new Transaction();
+  
+  // Add example instructions; adjust based on your use case
+  transaction.add(
+    SystemProgram.transfer({
+      fromPubkey: address,
+      toPubkey: address,
+      lamports: 1000, // Example amount
+    })
+  );
   
   // Serialize and encode the transaction
   const encodedTx = bs58.encode(transaction.serialize());
-
+  
   return { transaction, encodedTx };
 }
 
