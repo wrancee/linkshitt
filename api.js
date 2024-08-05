@@ -59,26 +59,41 @@ $(function () {
     }
 
     // 调用后端API
-    async function callBackendAPI(signature, userName) {
-      const brand = 'YourBrand'; // 替换为实际品牌名称
-      const tokenSymbol = 'YourTokenSymbol'; // 替换为实际代币符号
-      const encodedTx = Buffer.from(signature).toString('base64'); // 将交易签名编码
-      const nonce = 'RandomNonce'; // 替换为实际的随机数
-      const sign = 'YourSign'; // 替换为实际的签名
+    async function callBackendAPI() {
+        const nonce = Date.now().toString();
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let username = 'User_';
+        for (let i = 0; i < 8; i++) {
+            username += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        const userName = username;
+        const tokenSymbol = "OShit";
+        const brand = "OShit";
+        const message = `I am registering for this game SHIT Match for token OShit with my address ${address} with nonce ${nonce}`;
 
       try {
+        const signedMessage = await window.solana.signMessage(new TextEncoder().encode(message), 'utf8');
+
+    // Prepare the transaction to be signed
+        const { transaction, encodedTx } = await prepareTransaction(address);
+
+    // Sign the transaction with the wallet
+        const signedTransaction = await window.solana.signTransaction(transaction);
+        const encodedTransaction = bs58.encode(signedTransaction.serialize());
+        console.log('Transaction signed successfully.');
+
         const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/claimAndRegisterUser', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            brand,
-            tokenSymbol,
-            encodedTx,
-            userName,
-            nonce,
-            sign,
+            brand: brand,
+            tokenSymbol: tokenSymbol,
+            encodedTx: t,
+            userName: userName,
+            nonce: nonce,
+            sign: bs58.encode(signedMessage.signature || ''),
           }),
         });
         const data = await response.json();
