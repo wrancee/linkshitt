@@ -2020,8 +2020,9 @@ async function claimAndRegisterUser(address) {
 
   // Create the message to be signed
   const message = `Claim and register user: ${address}, nonce: ${nonce}, userName: ${userName}`;
-  const encodedMessage = new TextEncoder().encode(message);
-  const signature = await window.solana.signMessage(encodedMessage, 'utf8');
+
+  // Sign the message with the Solana wallet
+  const signature = await signMessageWithWallet(message);
 
   // Simulate creating and signing the binary transaction (encodedTx)
   const encodedTx = await signTransaction(address);
@@ -2047,7 +2048,8 @@ async function claimAndRegisterUser(address) {
       }
 
       const result = await response.json();
-      console.log('Claim and register successful, Transaction ID:', result);
+      console.log('Claim and register successful, Transaction ID:', result.txId);
+      // Handle the transaction ID as needed
   } catch (error) {
       console.error('Error claiming and registering user:', error);
   }
@@ -2062,10 +2064,14 @@ function generateRandomUsername() {
   return username;
 }
 
-async function signTransaction(address) {
-  // This function should create and sign the binary transaction using the Solana wallet.
-  // Here we are simulating this step as it depends on the specifics of your transaction and wallet.
+async function signMessageWithWallet(message) {
+  const encodedMessage = new TextEncoder().encode(message);
+  const signedMessage = await window.solana.signMessage(encodedMessage, 'utf8');
+  return signedMessage.signature;
+}
 
+// Function to simulate creating and signing a binary transaction using the Solana wallet
+async function signTransaction(address) {
   // Placeholder code for creating a transaction
   const transaction = new Uint8Array([/* ...transaction bytes... */]);
 
