@@ -1,6 +1,7 @@
 'use strict';
 
-import bs58 from 'bs58'
+import bs58 from 'bs58';
+import { Transaction } from '@solana/web3.js';
 
 function LinkGame(config) {
   if (!(this instanceof LinkGame)) {
@@ -2015,40 +2016,43 @@ async function loginWithWallet(address) {
 }
 
 async function claimAndRegisterUser(address) {
-  const nonce = new Date().getTime();
+  const nonce = new Date().getTime().toString(); // Convert nonce to string
   const userName = generateRandomUsername();
   const tokenSymbol = "OShit";
   const brand = "OShit";
   const message = `I am registering for this game SHIT Match for token OShit with my address ${address} with nonce ${nonce}`;
-  const signedMessage = await window.solana.signMessage(new TextEncoder().encode(message), 'utf8');
-
-  const encodedTx = await signTransaction(address);
-
+  
   try {
-      const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/claimAndRegisterUser', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-              brand: brand,
-              tokenSymbol: tokenSymbol,
-              encodedTx: encodedTx,
-              userName: userName,
-              nonce: nonce,
-              sign: bs58.encode(signedMessage.signature || '')
-          }),
-      });
+    // Sign the message using Solana wallet
+    const signedMessage = await window.solana.signMessage(new TextEncoder().encode(message), 'utf8');
+    const encodedTx = await signTransaction(address); // Assume this function returns the encoded transaction
 
-      if (!response.ok) {
-          throw new Error(`Claim and register API request failed with status ${response.status}`);
-      }
+    // Send request to claim and register user
+    const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/claimAndRegisterUser', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        brand: brand,
+        tokenSymbol: tokenSymbol,
+        encodedTx: encodedTx,
+        userName: userName,
+        nonce: nonce,
+        sign: bs58.encode(signedMessage.signature || ''),
+      }),
+    });
 
-      const result = await response.json();
-      console.log('Claim and register successful, Transaction ID:', result.txId);
-      // Handle the transaction ID as needed
+    if (!response.ok) {
+      throw new Error(`Claim and register API request failed with status ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('Claim and register successful, Transaction ID:', result.txId);
+    return result.txId; // Return the transaction ID for further use
   } catch (error) {
-      console.error('Error claiming and registering user:', error);
+    console.error('Error claiming and registering user:', error);
+    throw error; // Rethrow the error for handling in calling context
   }
 }
 
@@ -2062,12 +2066,24 @@ function generateRandomUsername() {
 }
 
 async function signTransaction(address) {
-  const transaction = new Uint8Array([/* ...transaction bytes... */]);
+  // Create a new transaction object (Example with basic setup)
+  const transaction = new Transaction();
+  
+  // Optionally, add instructions to the transaction here
+  // Example: transaction.add(/* ...instructions... */);
 
-  const signedTransaction = await window.solana.signTransaction(transaction);
-
-  const encodedTx = btoa(String.fromCharCode(...signedTransaction));
-  return encodedTx;
+  // Sign the transaction using the Solana wallet
+  try {
+    const signedTransaction = await window.solana.signTransaction(transaction);
+    
+    // Encode the signed transaction to Base64
+    const encodedTx = btoa(String.fromCharCode(...new Uint8Array(signedTransaction.serialize())));
+    
+    return encodedTx;
+  } catch (error) {
+    console.error('Error signing transaction:', error);
+    throw error; // Rethrow the error for handling in calling context
+  }
 }
 
 
