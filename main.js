@@ -2017,14 +2017,9 @@ async function claimAndRegisterUser(address) {
   const userName = generateRandomUsername();
   const tokenSymbol = "OShit";
   const brand = "OShit";
+  const message = `I am registering for this game SHIT Match for token OShit with my address ${address} with nonce ${nonce}`;
+  const signedMessage = await window.solana.signMessage(new TextEncoder().encode(message), 'utf8');
 
-  // Create the message to be signed
-  const message = `Claim and register user: ${address}, nonce: ${nonce}, userName: ${userName}`;
-
-  // Sign the message with the Solana wallet
-  const signature = await signMessageWithWallet(message);
-
-  // Simulate creating and signing the binary transaction (encodedTx)
   const encodedTx = await signTransaction(address);
 
   try {
@@ -2039,7 +2034,7 @@ async function claimAndRegisterUser(address) {
               encodedTx: encodedTx,
               userName: userName,
               nonce: nonce,
-              sign: signature,
+              sign: bs58.encode(signedMessage.signature || '')
           }),
       });
 
@@ -2064,23 +2059,12 @@ function generateRandomUsername() {
   return username;
 }
 
-async function signMessageWithWallet(message) {
-  const encodedMessage = new TextEncoder().encode(message);
-  const signedMessage = await window.solana.signMessage(encodedMessage, 'utf8');
-  return signedMessage.signature;
-}
-
-// Function to simulate creating and signing a binary transaction using the Solana wallet
 async function signTransaction(address) {
-  // Placeholder code for creating a transaction
   const transaction = new Uint8Array([/* ...transaction bytes... */]);
 
-  // Sign the transaction using the wallet
   const signedTransaction = await window.solana.signTransaction(transaction);
 
-  // Encode the signed transaction as a base64 string
   const encodedTx = btoa(String.fromCharCode(...signedTransaction));
-
   return encodedTx;
 }
 
