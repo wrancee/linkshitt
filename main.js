@@ -1918,87 +1918,91 @@ LinkGame2.prototype = {
 };
 
 
-//log in functions
-$(function () {
-  $('.login-btn').click(async function () {
-      if (window.solana && window.solana.isPhantom) {
-          try {
-              await window.solana.connect();
-              let defAddress = window.solana.publicKey;
-              const address = defAddress.toString();
-              $('#wallet-address').text(`Connected wallet address: ${address}`);
-
-              const isRegistered = await checkAddressRegistration(address);
-                if (isRegistered) {
-                  await loginWithWallet(address);
-                  $('audio').get(0).play();
-                  $('.login').addClass('hidden');
-                  $('.init-box').removeClass('hidden');
-                } else {
-                    $('.login').addClass('hidden');
-                    $('.newPlayer').removeClass('hidden');
-                }
-            } catch (error) {
-                console.error('Failed to connect to the wallet:', error);
-            }
-        } else {
-            alert('Please install a Solana wallet extension like Phantom.');
-        }
-  });
-});
-
-async function checkAddressRegistration(address) {
-  try {
-      const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/isAddressRegistered', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ nativeAddress: address }),
-      });
-
-      if (!response.ok) {
-          throw new Error(`API request failed with status ${response.status}`);
-      }
-
-      const result = await response.json();
-      return result.data; // Assuming 'data' field in the response contains the registration status
-  } catch (error) {
-      console.error('Error checking address registration:', error);
-      return false;
-  }
-}
-
-async function loginWithWallet(address) {
+async function claimAndRegisterUser(address) {
   const nonce = Date.now().toString();
-  const message = `Login with wallet: ${address}, nonce: ${nonce}`;
-  const encodedMessage = new TextEncoder().encode(message);
-  const signature = await window.solana.signMessage(encodedMessage, 'utf8');
-
+  const userName = generateRandomUsername();
+  const tokenSymbol = "OShit";
+  const brand = "OShit";
+  const message = `I am registering for this game SHIT Match for token OShit with my address ${address} with nonce ${nonce}`;
+  
   try {
-      const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/loginWithWallet', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-              nativeAccount: address,
-              nonce: nonce,
-              sign: signature,
-          }),
-      });
+    // Sign the message with the wallet
+    const signedMessage = await window.solana.signMessage(new TextEncoder().encode(message), 'utf8');
 
-      if (!response.ok) {
-          throw new Error(`Login API request failed with status ${response.status}`);
-      }
+    // Prepare the transaction to be signed
+    const { transaction, encodedTx } = await prepareTransaction(address);
 
-      const result = await response.json();
-      console.log('Login successful, JWT token:', result.Access);
-      // Store the JWT token or handle it as needed
+    // Sign the transaction with the wallet
+    const signedTransaction = await window.solana.signTransaction(transaction);
+    const encodedTransaction = bs58.encode(signedTransaction.serialize());
+    console.log('Transaction signed successfully.');
+
+    // Call the API to register and claim the token
+    const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/claimAndRegisterUser', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        brand: brand,
+        tokenSymbol: tokenSymbol,
+        encodedTx: encodedTransaction,
+        userName: userName,
+        nonce: nonce,
+        sign: bs58.encode(signedMessage.signature || ''),
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Claim and register API request failed with status ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('Claim and register successful, Transaction ID:', result.txId);
+    // Handle the transaction ID as needed
   } catch (error) {
-      console.error('Error logging in:', error);
+    console.error('Error claiming and registering user:', error);
   }
 }
+
+// Helper function to prepare the transaction
+async function prepareTransaction(address) {
+  // Create and set up the transaction
+  const transaction = new Transaction();
+  
+  // Add example instructions; adjust based on your use case
+  transaction.add(
+    SystemProgram.transfer({
+      fromPubkey: address,
+      toPubkey: address,
+      lamports: 1000, // Example amount
+    })
+  );
+  
+  // Serialize and encode the transaction
+  const encodedTx = bs58.encode(transaction.serialize());
+  
+  return { transaction, encodedTx };
+}
+
+function generateRandomUsername() {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let username = 'User_';
+  for (let i = 0; i < 8; i++) {
+      username += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return username;
+}
+
+async function signTransaction(address) {
+  const transaction = new Uint8Array([/* ...transaction bytes... */]);
+
+  const signedTransaction = await window.solana.signTransaction(transaction);
+
+  const encodedTx = btoa(String.fromCharCode(...signedTransaction));
+  return encodedTx;
+}
+
 
 
 $(function () {
