@@ -44,7 +44,7 @@ $(function () {
         const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/isAddressRegistered', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: JSON.stringify({ nativeAddress: address }),
         });
@@ -72,7 +72,7 @@ $(function () {
         const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/loginWithWallet', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: JSON.stringify({
                 nativeAccount: address,
