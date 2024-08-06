@@ -1,3 +1,4 @@
+
 //log in click function
 $(function () {
     $('.login-btn').click(async function () {
@@ -9,20 +10,25 @@ $(function () {
                 $('#wallet-address').text(`Connected wallet address: ${address}`);
   
                 const isRegistered = await checkAddressRegistration(address);
-                  if (isRegistered) {
+
+                if (isRegistered === null) {
+                    console.error('Failed to check registration status.');
+                    // Handle the error case, e.g., show an error message to the user
+                } else if (isRegistered) {
                     const jwtToken = await loginWithWallet(address);
                     if (jwtToken) {
                         console.log('Login successful. JWT Token:', jwtToken);
                         $('audio').get(0).play();
                         $('.login').addClass('hidden');
                         $('.init-box').removeClass('hidden');
-                    } else {
+                    }else {
                         console.error('Login failed.');
                       }
-                  } else {
-                      $('.login').addClass('hidden');
-                      $('.newPlayer').removeClass('hidden');
-                  }
+                } else {
+                    console.log('Address is not registered.');
+                    $('.login').addClass('hidden');
+                    $('.newPlayer').removeClass('hidden');
+                }
               } catch (error) {
                   console.error('Failed to connect to the wallet:', error);
               }
@@ -51,7 +57,7 @@ $(function () {
         return result.data; // Assuming 'data' field in the response contains the registration status
     } catch (error) {
         console.error('Error checking address registration:', error);
-        return false;
+        return null;
     }
   }
   
