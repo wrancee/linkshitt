@@ -8,7 +8,9 @@
     <title>Document</title>
     <link rel="stylesheet" href="main.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+    <script type="module">
+        import { Connection, PublicKey } from 'https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/dist/web3.min.js';
+    </script>
 </head>
 <body>
 
@@ -63,13 +65,13 @@
             <div class="slot" data-slot-index="25"></div>
             <div class="slot" data-slot-index="26"></div>
             <div class="slot" data-slot-index="27"></div>
-
+            
             <button class="redeem-btn" disabled>兑换</button>
         </div>
 
         <div class="init-box hidden">
             <div class="left"></div>
-            <div class="bag1"></div>
+            <div class="bag-btn"></div>
             <button class="logo"></button>
             <div class="start-btn1"></div>
             <div class="start-btn2"></div>
