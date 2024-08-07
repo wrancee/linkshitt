@@ -1,4 +1,4 @@
-import { Connection, PublicKey, Transaction, SystemProgram, ComputeBudgetProgram } from '@solana/web3.js';
+import { Connection, PublicKey, Transaction, SystemProgram, ComputeBudgetProgram } from 'https://cdn.skypack.dev/@solana/web3.js';
 
 // 连接Phantom钱包
 async function connectWallet() {
