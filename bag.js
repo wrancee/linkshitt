@@ -78,12 +78,12 @@ $(function () {
             throw new Error(`Login API request failed with status ${response.status}`);
         }
   
-        const data = await response.json();
-        console.log('API response data:', data); // 调试输出 API 返回的数据
+        const responseData = await response.json();
+        console.log('API response data:', responseData); // 调试输出 API 返回的数据
         
-        localStorage.setItem('jwtToken', data.Access); // 存储 jwtToken 到 localStorage
-        console.log("data Access is: ", data.Access);
-        return data.Access;
+        localStorage.setItem('jwtToken', responseData.data?.Access); // 存储 jwtToken 到 localStorage
+        console.log("data Access is: ", responseData.data?.Access);
+        return responseData.data?.Access;
     } catch (error) {
         console.error('Error logging in:', error);
         return null; // 出现错误时返回 null
