@@ -72,8 +72,8 @@ $(function () {
             body: new URLSearchParams({
                 nativeAccount: address,
                 nonce: nonce,
-                sign: bs58.encode(signedMessage)
-            }).toString(),
+                sign: bs58.encode(signedMessage.signature || '')
+            }),
         });
   
         if (!response.ok) {
