@@ -30,7 +30,7 @@ $(function () {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: JSON.stringify({ nativeAddress: address }),
+            body: new URLSearchParams({ nativeAddress: address }).toString(),
         });
   
         if (!response.ok) {
