@@ -1,4 +1,3 @@
-import bs58 from 'bs58';
 //log in click function
 $(function () {
     $('.login-btn').click(async function () {
