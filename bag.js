@@ -1,5 +1,5 @@
 import bs58 from 'https://unpkg.com/bs58?module';
-import { Connection, PublicKey } from 'https://cdn.skypack.dev/@solana/web3.js';
+import * from 'https://cdn.jsdelivr.net/npm/@jolders/solana-web3-tools@0.1.8/build/index.min.js';
 
 //log in click function
 $(function () {
