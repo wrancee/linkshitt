@@ -1,4 +1,4 @@
-import bs58 from 'bs58';
+import bs58 from "bs58";
 import * as solanaWeb3 from "@solana/web3.js";
 
 //log in click function
