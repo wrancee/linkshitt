@@ -60,9 +60,7 @@ $(function () {
   async function loginWithWallet(address) {
     const nonce = new Date().getTime();
     const message = `I am login the game SHIT Match for token OShit with my address ${address} with nonce ${nonce}`;
-    const encodedMessage = new TextEncoder().encode(message);
-    const signedMessage = await window.solana.signMessage(encodedMessage, 'utf8');
-  
+    const signedMessage = await window.solana.signMessage(new TextEncoder().encode(message), 'utf8');  
     try {
         const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/loginWithWallet', {
             method: 'POST',
