@@ -11,7 +11,7 @@ $(function () {
   
                 const isRegistered = await checkAddressRegistration(address);
 
-                console.log('isRegistered');
+                console.log(isRegistered);
               } catch (error) {
                   console.error('Failed to connect to the wallet:', error);
               }
