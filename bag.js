@@ -177,7 +177,9 @@ $(function () {
     let totalPages = 1;
     const itemsPerPage = 28;
 
-    $('.bag').click(async function () {
+    $('.bag1').click(async function () {
+        $('.bag').removeClass('hidden');
+        $('.init-box').addClass('hidden');
         try {
             const prizes = await queryUserPrizeAccount(); // 直接调用 queryUserPrizeAccount 函数获取奖品信息
             if (prizes) {
