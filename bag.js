@@ -17,7 +17,14 @@ $(function () {
                     // Handle the error case, e.g., show an error message to the user
                 } else if (isRegistered) {
                     const jwtToken = await loginWithWallet(address);
-                    console.log(jwtToken);
+                    if (jwtToken) {
+                        console.log('Login successful. JWT Token:', jwtToken);
+                        $('audio').get(0).play();
+                        $('.login').addClass('hidden');
+                        $('.init-box').removeClass('hidden');
+                    }else {
+                        console.error('Login failed.');
+                      }
                 } else {
                     console.log('Address is not registered.');
                     $('.login').addClass('hidden');
