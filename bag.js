@@ -87,6 +87,8 @@ $(function () {
         }
   
         const data = await response.json();
+        console.log('API response data:', data); // 调试输出 API 返回的数据
+        
         localStorage.setItem('jwtToken', data.Access); // 存储 jwtToken 到 localStorage
         return data.Access;
     } catch (error) {
