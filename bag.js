@@ -7,6 +7,7 @@ $(function () {
                 await window.solana.connect();
                 let defAddress = window.solana.publicKey;
                 const address = defAddress.toString();
+                console.log('Request body:', JSON.stringify({ nativeAddress: address }));
                 $('#wallet-address').text(`Connected wallet address: ${address}`);
   
                 const isRegistered = await checkAddressRegistration(address);
@@ -39,10 +40,7 @@ $(function () {
         const result = await response.json();
         console.log('API response:', result);
         console.log('Address sent to API:', address);
-        if (typeof result.data === 'string') {
-            return result.data === 'true'; // 将字符串 "true"/"false" 转换为布尔值
-        }
-
+        
         return result.data; // Assuming 'data' field in the response contains the registration status
     } catch (error) {
         console.error('Error checking address registration:', error);
