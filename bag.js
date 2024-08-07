@@ -37,6 +37,7 @@ $(function () {
         }
   
         const result = await response.json();
+        console.log('API response:', result);
         return result.data; // Assuming 'data' field in the response contains the registration status
     } catch (error) {
         console.error('Error checking address registration:', error);
