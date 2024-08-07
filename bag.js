@@ -2,7 +2,7 @@ import bs58 from 'https://cdn.jsdelivr.net/npm/bs58@6.0.0/+esm';
 
 //log in click function
 $(function () {
-    $('.login-btn').click(async function () {
+    $('.login-btn1').click(async function () {
         if (window.solana && window.solana.isPhantom) {
             try {
                 await window.solana.connect();
@@ -11,14 +11,20 @@ $(function () {
                 $('#wallet-address').text(`Connected wallet address: ${address}`);
   
                 const isRegistered = await checkAddressRegistration(address);
-
+  
                 if (isRegistered === null) {
                     console.error('Failed to check registration status.');
                     // Handle the error case, e.g., show an error message to the user
                 } else if (isRegistered) {
                     const jwtToken = await loginWithWallet(address);
-                    console.log('JWT is defined as', jwtToken);
-
+                    if (jwtToken) {
+                        console.log('Login successful. JWT Token:', jwtToken);
+                        $('audio').get(0).play();
+                        $('.login').addClass('hidden');
+                        $('.init-box').removeClass('hidden');
+                    }else {
+                        console.error('Login failed.');
+                      }
                 } else {
                     console.log('Address is not registered.');
                     $('.login').addClass('hidden');
@@ -79,10 +85,7 @@ $(function () {
         }
   
         const responseData = await response.json();
-        console.log('API response data:', responseData); // 调试输出 API 返回的数据
-        
         localStorage.setItem('jwtToken', responseData.data?.Access); // 存储 jwtToken 到 localStorage
-        console.log("data Access is: ", responseData.data?.Access);
         return responseData.data?.Access;
     } catch (error) {
         console.error('Error logging in:', error);
