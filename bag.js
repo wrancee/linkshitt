@@ -18,7 +18,6 @@ $(function () {
                 } else if (isRegistered) {
                     const jwtToken = await loginWithWallet(address);
                     if (jwtToken) {
-                        console.log('Login successful. JWT Token:', jwtToken);
                         $('audio').get(0).play();
                         $('.login').addClass('hidden');
                         $('.init-box').removeClass('hidden');
