@@ -2,7 +2,7 @@ import bs58 from 'https://cdn.jsdelivr.net/npm/bs58@6.0.0/+esm';
 
 //log in click function
 $(function () {
-    $('.login-btn1').click(async function () {
+    $('.login-btn').click(async function () {
         if (window.solana && window.solana.isPhantom) {
             try {
                 await window.solana.connect();
