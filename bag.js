@@ -1,4 +1,4 @@
-import bs58 from 'https://www.jsdelivr.com/package/npm/bs58'';
+import bs58 from 'https://cdn.jsdelivr.net/npm/bs58@6.0.0/+esm';
 
 //log in click function
 $(function () {
