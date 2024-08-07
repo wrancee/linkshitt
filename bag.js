@@ -125,9 +125,9 @@ async function queryUserPrizeAccount(packId = '', prizeId = '') {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const data = await response.json();
-        console.log("data is here", data);
-        return data; // 返回 API 响应数据
+        const responseData = await response.json();
+        console.log("data is here", responseData.data);
+        return responseData.data; // 返回 API 响应数据
     } catch (error) {
         console.error('Error fetching user prize account:', error);
         return null; // 出现错误时返回 null
