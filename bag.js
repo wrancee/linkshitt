@@ -17,7 +17,7 @@ $(function () {
                     // Handle the error case, e.g., show an error message to the user
                 } else if (isRegistered) {
                     const jwtToken = await loginWithWallet(address);
-                    console.log(jwtToken);
+                    console.log('JWT is defined as', jwtToken);
 
                 } else {
                     console.log('Address is not registered.');
@@ -61,7 +61,7 @@ $(function () {
     const nonce = Date.now().toString();
     const message = `Login with wallet: ${address}, nonce: ${nonce}`;
     const encodedMessage = new TextEncoder().encode(message);
-    const signature = await window.solana.signMessage(encodedMessage, 'utf8');
+    const signedMessage = await window.solana.signMessage(encodedMessage, 'utf8');
   
     try {
         const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/loginWithWallet', {
