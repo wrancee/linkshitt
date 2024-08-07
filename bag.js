@@ -38,6 +38,7 @@ $(function () {
   
         const result = await response.json();
         console.log('API response:', result);
+        console.log('Address sent to API:', address);
         if (typeof result.data === 'string') {
             return result.data === 'true'; // 将字符串 "true"/"false" 转换为布尔值
         }
