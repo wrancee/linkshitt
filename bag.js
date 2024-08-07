@@ -201,6 +201,7 @@ async function queryUserPrizeAccount(packId = '', prizeId = '') {
         }
 
         const data = await response.json();
+        console.log("data is here", data);
         return data; // 返回 API 响应数据
     } catch (error) {
         console.error('Error fetching user prize account:', error);
