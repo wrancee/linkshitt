@@ -59,7 +59,7 @@ $(function () {
   //log in and get jwt token
   async function loginWithWallet(address) {
     const nonce = new Date().getTime();
-    const message = `I am login the game SHIT Match for token OShit with my address ${address} with nonce ${nonce}`;
+    const message = `I am login game with my address ${address} with nonce ${nonce}`;
     const signedMessage = await window.solana.signMessage(new TextEncoder().encode(message), 'utf8');  
     try {
         const response = await fetch('https://testnet.oshit.io/meme/api/v1/sol/game/loginWithWallet', {
