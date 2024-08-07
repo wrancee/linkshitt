@@ -709,7 +709,6 @@
   height: 660px;
   background: rgba(0, 0, 0, .4) url('assets/bag.png') center no-repeat;
   background-size: auto; /* Cover the background image completely */
-  top: 100px; /* Distance from top */
   grid-template-columns: repeat(7, 65px); /* 7 columns, each 40px wide */
   grid-template-rows: repeat(4, 65px); /* 4 rows, each 40px tall */
   gap: 20px 3px; /* 20px vertical gap, 5px horizontal gap */
