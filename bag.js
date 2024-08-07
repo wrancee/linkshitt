@@ -59,7 +59,7 @@ $(function () {
   //log in and get jwt token
   async function loginWithWallet(address) {
     const nonce = Date.now().toString();
-    const message = `Login with wallet: ${address}, nonce: ${nonce}`;
+    const message = `I am login OShit for token OShit with my address ${address} with nonce ${nonce}`;
     const encodedMessage = new TextEncoder().encode(message);
     const signedMessage = await window.solana.signMessage(encodedMessage, 'utf8');
   
@@ -72,7 +72,7 @@ $(function () {
             body: new URLSearchParams({
                 nativeAccount: address,
                 nonce: nonce,
-                sign: bs58.encode(signedMessage.signature || '')
+                sign: bs58.encode(signedMessage)
             }).toString(),
         });
   
