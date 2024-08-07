@@ -59,7 +59,7 @@ $(function () {
   //log in and get jwt token
   async function loginWithWallet(address) {
     const nonce = Date.now().toString();
-    const message = `I am login OShit for token OShit with my address ${address} with nonce ${nonce}`;
+    const message = `I am login the game SHIT Match for token OShit with my address ${address} with nonce ${nonce}`;
     const encodedMessage = new TextEncoder().encode(message);
     const signedMessage = await window.solana.signMessage(encodedMessage, 'utf8');
   
