@@ -96,81 +96,6 @@ function getJwtToken() {
     return localStorage.getItem('jwtToken');
 }
 
-//bag click function
-$(function () {
-    $('.bag').click(async function () {
-        try {
-            const prizes = await queryUserPrizeAccount(); // 直接调用 queryUserPrizeAccount 函数获取奖品信息
-            if (prizes) {
-                displayPrizesInBag(prizes); // 调用 displayPrizesInBag 函数显示奖品
-            } else {
-                console.error('Failed to fetch user prizes or no prizes available.');
-            }
-        } catch (error) {
-            console.error('Error fetching prizes:', error);
-        }
-    });
-});
-
-//let all the prizes shown in the bag
-function displayPrizesInBag(prizes) {
-    const backpackContainer = document.querySelector('.wrapper .bag');
-
-    // Clear any previous content in the slots
-    const slots = backpackContainer.querySelectorAll('.slot');
-    slots.forEach(slot => slot.innerHTML = '');
-
-    const prizeImageMap = {
-        "PRIZE_ID_100": "100.png",
-        "PRIZE_ID_300": "300.png",
-        "PRIZE_ID_600": "600.png",
-        "PRIZE_ID_1000": "1000.png",
-        "PRIZE_ID_1500": "1500.png"
-    };
-
-    prizes.forEach((prize, index) => {
-        const slot = slots[index];
-        if (!slot) return; // Ensure we do not exceed the number of available slots
-
-        const imgName = prizeImageMap[prize.prizeId];
-        if (imgName) {
-            for (let i = 0; i < prize.amount; i++) {
-                const img = document.createElement('img');
-                img.src = imgName;
-                img.className = 'prize';
-                img.style.width = '40px'; // Adjust prize image size
-                img.style.height = '40px'; // Adjust prize image size
-                slot.appendChild(img);
-            }
-        } else {
-            console.error(`No image found for prizeId: ${prize.prizeId}`);
-        }
-    });
-}
-
-async function fetchAndStorePrizeData() {
-    const prizes = await queryUserPrizeAccount(); // Call your function
-
-    if (prizes && prizes.length > 0) {
-        const packIds = prizes.map(prize => prize.packId);
-        const prizeIds = prizes.map(prize => prize.prizeId);
-
-        // Optionally store them in localStorage for later use
-        localStorage.setItem('packIds', JSON.stringify(packIds));
-        localStorage.setItem('prizeIds', JSON.stringify(prizeIds));
-
-        console.log('Pack IDs:', packIds);
-        console.log('Prize IDs:', prizeIds);
-
-    } else {
-        console.error('No prizes found or an error occurred.');
-    }
-}
-
-$(function () {
-    $('.bag1').click(fetchAndStorePrizeData); // Trigger the function when the bag is clicked
-});
-
 //api for get prizes infos
 async function queryUserPrizeAccount(packId = '', prizeId = '') {
     try {
@@ -245,4 +170,116 @@ $(function () {
             console.log('Redeeming prizes from slots:', Array.from(activeSlots));
         }
     });
+});
+
+$(function () {
+    let currentPage = 1;
+    let totalPages = 1;
+    const itemsPerPage = 28;
+
+    $('.bag').click(async function () {
+        try {
+            const prizes = await queryUserPrizeAccount(); // 直接调用 queryUserPrizeAccount 函数获取奖品信息
+            if (prizes) {
+                const totalItems = prizes.reduce((sum, prize) => sum + prize.amount, 0);
+                console.log("the total amount of prize is ",totalItems); //检查是否错误
+                totalPages = Math.ceil(totalItems / itemsPerPage);
+                displayPrizesInBag(prizes, currentPage); // 调用 displayPrizesInBag 函数显示奖品
+                setupPagination(prizes);
+            } else {
+                console.error('Failed to fetch user prizes or no prizes available.');
+            }
+        } catch (error) {
+            console.error('Error fetching prizes:', error);
+        }
+    });
+
+    function setupPagination(prizes) {
+        const prevButton = document.querySelector('#prevPage');
+        const nextButton = document.querySelector('#nextPage');
+
+        // 初始状态更新按钮
+        updatePaginationButtons();
+
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayPrizesInBag(prizes, currentPage);
+                updatePaginationButtons();
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayPrizesInBag(prizes, currentPage);
+                updatePaginationButtons();
+            }
+        });
+    }
+
+    function updatePaginationButtons() {
+        const prevButton = document.querySelector('#prevPage');
+        const nextButton = document.querySelector('#nextPage');
+
+        // 根据当前页数更新按钮状态
+        if (currentPage === 1) {
+            prevButton.disabled = true;
+        } else {
+            prevButton.disabled = false;
+        }
+
+        if (currentPage === totalPages) {
+            nextButton.disabled = true;
+        } else {
+            nextButton.disabled = false;
+        }
+    }
+
+    // 显示奖品到背包中的函数
+    function displayPrizesInBag(prizes, page) {
+        const backpackContainer = document.querySelector('.wrapper .bag');
+
+        // 清除格子中之前的内容
+        const slots = backpackContainer.querySelectorAll('.slot');
+        slots.forEach(slot => slot.innerHTML = '');
+
+        // 奖品ID和对应图片的映射
+        const prizeImageMap = {
+            "01J4F71XJAX34SXTE3551SB47Q": "100.png",
+            "01J4KZYYKBR7ZYMC9C2Y8C15ZE": "300.png",
+            "01J4KZYYKDW20SM37XAPG4G9KS": "600.png",
+            "01J4KZYYKEBQ2E8V5RKQB2395C": "1000.png",
+            "01J4KZYYKFFZAHZKC4GVSFNB40": "1500.png"
+        };
+
+        // 计算当前页的奖品起始和结束索引
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        let slotIndex = 0;
+
+        // 遍历奖品并放置到背包的格子中
+        prizes.forEach(prize => {
+            const imgName = prizeImageMap[prize.prizeId];
+            console.log("prize each is", prize) //检查
+            if (imgName) {
+                for (let i = 0; i < prize.amount; i++) {
+                    if (slotIndex >= start && slotIndex < end) {
+                        const slot = slots[slotIndex % itemsPerPage];
+                        if (!slot) return; // 确保不会超出可用的格子数
+
+                        const img = document.createElement('img');
+                        img.src = imgName;
+                        img.className = 'prize';
+                        img.style.width = '40px'; // 调整奖品图片的大小
+                        img.style.height = '40px'; // 调整奖品图片的大小
+                        slot.appendChild(img);
+                    }
+                    slotIndex++;
+                }
+            } else {
+                console.error(`No image found for prizeId: ${prize.prizeId}`);
+            }
+        });
+    }
 });
