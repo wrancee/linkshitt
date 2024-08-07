@@ -240,7 +240,7 @@ $(function () {
 
     // 显示奖品到背包中的函数
     function displayPrizesInBag(prizes, page) {
-        const backpackContainer = document.querySelector('.wrapper .bag');
+        const backpackContainer = document.querySelector('.wrapper .bag .slots-container');
 
         // 清除格子中之前的内容
         const slots = backpackContainer.querySelectorAll('.slot');
