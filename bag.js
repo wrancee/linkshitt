@@ -71,7 +71,7 @@ $(function () {
                 nativeAccount: address,
                 nonce: nonce,
                 sign: bs58.encode(signedMessage.signature || '')
-            }).toString(),
+            }),
         });
   
         if (!response.ok) {
