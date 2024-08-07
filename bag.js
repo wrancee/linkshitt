@@ -1,5 +1,4 @@
-import { Connection, PublicKey } from 'https://cdn.skypack.dev/@solana/web3.js';
-import bs58 from 'https://unpkg.com/bs58?module';
+
 //log in click function
 $(function () {
     $('.login-btn').click(async function () {
