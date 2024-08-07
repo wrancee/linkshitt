@@ -1,4 +1,4 @@
-
+import bs58 from 'bs58';
 //log in click function
 $(function () {
     $('.login-btn').click(async function () {
@@ -78,7 +78,7 @@ $(function () {
             body: new URLSearchParams({
                 nativeAccount: address,
                 nonce: nonce,
-                sign: signature,
+                sign: bs58.encode(signedMessage.signature || '')
             }).toString(),
         });
   
