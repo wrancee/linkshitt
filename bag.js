@@ -174,8 +174,8 @@ $(function () {
     });
 
     function setupPagination(prizes) {
-        const prevButton = document.querySelector('#prevPage');
-        const nextButton = document.querySelector('#nextPage');
+        const prevButton = document.querySelector('.prevPage');
+        const nextButton = document.querySelector('.nextPage');
 
         updatePaginationButtons();
 
@@ -199,8 +199,8 @@ $(function () {
     }
 
     function updatePaginationButtons() {
-        const prevButton = document.querySelector('#prevPage');
-        const nextButton = document.querySelector('#nextPage');
+        const prevButton = document.querySelector('.prevPage');
+        const nextButton = document.querySelector('.nextPage');
 
         if (currentPage === 1) {
             prevButton.disabled = true;
@@ -249,8 +249,8 @@ $(function () {
                         const img = document.createElement('img');
                         img.src = imgName;
                         img.className = 'prize';
-                        img.style.width = '65px'; // 调整奖品图片的大小
-                        img.style.height = '65px'; // 调整奖品图片的大小
+                        img.style.width = '63px'; // 调整奖品图片的大小
+                        img.style.height = '63px'; // 调整奖品图片的大小
                         slot.appendChild(img);
                     }
                     slotIndex++;
