@@ -248,11 +248,11 @@ $(function () {
 
         // 奖品ID和对应图片的映射
         const prizeImageMap = {
-            "01J4F71XJAX34SXTE3551SB47Q": "100.png",
-            "01J4KZYYKBR7ZYMC9C2Y8C15ZE": "300.png",
-            "01J4KZYYKDW20SM37XAPG4G9KS": "600.png",
-            "01J4KZYYKEBQ2E8V5RKQB2395C": "1000.png",
-            "01J4KZYYKFFZAHZKC4GVSFNB40": "1500.png"
+            "01J4F71XJAX34SXTE3551SB47Q": "assets/100.png",
+            "01J4KZYYKBR7ZYMC9C2Y8C15ZE": "assets/300.png",
+            "01J4KZYYKDW20SM37XAPG4G9KS": "assets/600.png",
+            "01J4KZYYKEBQ2E8V5RKQB2395C": "assets/1000.png",
+            "01J4KZYYKFFZAHZKC4GVSFNB40": "assets/1500.png"
         };
 
         // 计算当前页的奖品起始和结束索引
