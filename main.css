@@ -715,10 +715,10 @@
   display: grid;
   grid-template-columns: repeat(7, 62px); /* 7 columns of 40px each */
   grid-template-rows: repeat(4, 62px); /* 4 rows of 40px each */
-  gap: 1px 20px;
+  gap: 2px 21px;
   position: absolute;
-  top: 180px; /* Adjust to set the distance from the top of the .bag */
-  left: 126px; /* Center horizontally within the .bag */
+  top: 182px; /* Adjust to set the distance from the top of the .bag */
+  left: 128px; /* Center horizontally within the .bag */
 }
 
 .wrapper .bag .slots-container .slot {
@@ -727,12 +727,14 @@
   height: 62px;
   background-color: transparent;
   cursor: pointer;
+  display: flex;
+  align-items: center; /* Vertically center .prize */
+  justify-content: center; /* Horizontally center .prize */
 }
 .wrapper .bag .slots-container .slot.active {
   border: 2px solid yellow; /* Highlight active slot */
 }
 .wrapper .bag .slots-container .slot .prize {
-  vertical-align: middle;
   width: auto;
   height: auto;
   max-width: 90%;
