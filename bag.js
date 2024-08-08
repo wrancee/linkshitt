@@ -183,6 +183,7 @@ $(function () {
         updatePaginationButtons();
 
         prevButton.addEventListener('click', () => {
+            $('.slot').removeClass('active');
             if (currentPage > 1) {
                 currentPage--;
                 console.log("Previous page:", currentPage); // Debugging output
@@ -192,6 +193,7 @@ $(function () {
         });
 
         nextButton.addEventListener('click', () => {
+            $('.slot').removeClass('active');
             if (currentPage < totalPages) {
                 currentPage++;
                 console.log("Next page:", currentPage); // Debugging output
