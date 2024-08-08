@@ -715,10 +715,10 @@
   display: grid;
   grid-template-columns: repeat(7, 62px); /* 7 columns of 40px each */
   grid-template-rows: repeat(4, 62px); /* 4 rows of 40px each */
-  gap: 2px 21px;
+  gap: 2px 20px;
   position: absolute;
-  top: 182px; /* Adjust to set the distance from the top of the .bag */
-  left: 128px; /* Center horizontally within the .bag */
+  top: 181px; /* Adjust to set the distance from the top of the .bag */
+  left: 126px; /* Center horizontally within the .bag */
 }
 
 .wrapper .bag .slots-container .slot {
