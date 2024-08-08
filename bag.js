@@ -239,8 +239,8 @@ $(function () {
                         const img = document.createElement('img');
                         img.src = imgName;
                         img.className = 'prize';
-                        img.style.width = '40px'; // Adjust prize image size
-                        img.style.height = '40px'; // Adjust prize image size
+                        img.style.width = '65px'; // Adjust prize image size
+                        img.style.height = '65px'; // Adjust prize image size
                         slot.appendChild(img);
                     }
                     slotIndex++;
