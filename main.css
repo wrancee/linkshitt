@@ -717,11 +717,11 @@
   grid-template-rows: repeat(4, 65px); /* 4 rows of 40px each */
   gap: 20px 3px; /* 20px vertical gap, 5px horizontal gap */
   position: absolute;
-  top: 100px; /* Adjust to set the distance from the top of the .bag */
-  left: 50%; /* Center horizontally within the .bag */
+  top: 180px; /* Adjust to set the distance from the top of the .bag */
+  left: 126px; /* Center horizontally within the .bag */
 }
 
-.wrapper .bag .slot {
+.wrapper .bag .slots-container .slot {
   position: relative;
   width: 65px;
   height: 65px;
@@ -769,11 +769,11 @@
   margin: 0 auto;
 }
 
-.wrapper .bag .slot.active {
+.wrapper .bag slots-container .slot.active {
   border: 2px solid yellow; /* Highlight active slot */
 }
 
-.wrapper .bag .slot .prize {
+.wrapper .bag slots-container .slot .prize {
   width: 100%;
   height: 100%;
   object-fit: contain; /* Ensures the image fits within the slot */
