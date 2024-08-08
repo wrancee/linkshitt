@@ -174,15 +174,15 @@ $(function () {
     });
 
     function setupPagination(prizes) {
-        const prevButton = document.querySelector('.prevPage');
-        const nextButton = document.querySelector('.nextPage');
+        const prevButton = document.querySelector('#prevPage');
+        const nextButton = document.querySelector('#nextPage');
 
-        // Initialize button states
         updatePaginationButtons();
 
         prevButton.addEventListener('click', () => {
             if (currentPage > 1) {
                 currentPage--;
+                console.log("Previous page:", currentPage); // Debugging output
                 displayPrizesInBag(prizes, currentPage);
                 updatePaginationButtons();
             }
@@ -191,6 +191,7 @@ $(function () {
         nextButton.addEventListener('click', () => {
             if (currentPage < totalPages) {
                 currentPage++;
+                console.log("Next page:", currentPage); // Debugging output
                 displayPrizesInBag(prizes, currentPage);
                 updatePaginationButtons();
             }
@@ -198,22 +199,30 @@ $(function () {
     }
 
     function updatePaginationButtons() {
-        const prevButton = document.querySelector('.prevPage');
-        const nextButton = document.querySelector('.nextPage');
+        const prevButton = document.querySelector('#prevPage');
+        const nextButton = document.querySelector('#nextPage');
 
-        // Update button states based on the current page
-        prevButton.disabled = currentPage === 1;
-        nextButton.disabled = currentPage === totalPages;
+        if (currentPage === 1) {
+            prevButton.disabled = true;
+        } else {
+            prevButton.disabled = false;
+        }
+
+        if (currentPage === totalPages) {
+            nextButton.disabled = true;
+        } else {
+            nextButton.disabled = false;
+        }
     }
 
     function displayPrizesInBag(prizes, page) {
         const backpackContainer = document.querySelector('.wrapper .bag .slots-container');
 
-        // Clear any previous content in the slots
+    // 清除格子中之前的内容
         const slots = backpackContainer.querySelectorAll('.slot');
         slots.forEach(slot => slot.innerHTML = '');
 
-        // Map prize IDs to their corresponding images
+    // 奖品ID和对应图片的映射
         const prizeImageMap = {
             "01J4F71XJAX34SXTE3551SB47Q": "assets/100.png",
             "01J4KZYYKBR7ZYMC9C2Y8C15ZE": "assets/300.png",
@@ -222,25 +231,26 @@ $(function () {
             "01J4KZYYKFFZAHZKC4GVSFNB40": "assets/1500.png"
         };
 
-        // Calculate the prize start and end index for the current page
         const start = (page - 1) * itemsPerPage;
         const end = start + itemsPerPage;
         let slotIndex = 0;
 
-        // Place prizes into the slots
         prizes.forEach(prize => {
             const imgName = prizeImageMap[prize.prizeId];
             if (imgName) {
                 for (let i = 0; i < prize.amount; i++) {
+                // Debugging output to check slot allocation
+                    console.log(`Placing prize ${prize.prizeId} in slot ${slotIndex}`);
+
                     if (slotIndex >= start && slotIndex < end) {
                         const slot = slots[slotIndex % itemsPerPage];
-                        if (!slot) return; // Ensure we do not exceed available slots
+                        if (!slot) return; // 确保不会超出可用的格子数
 
                         const img = document.createElement('img');
                         img.src = imgName;
                         img.className = 'prize';
-                        img.style.width = '65px'; // Adjust prize image size
-                        img.style.height = '65px'; // Adjust prize image size
+                        img.style.width = '65px'; // 调整奖品图片的大小
+                        img.style.height = '65px'; // 调整奖品图片的大小
                         slot.appendChild(img);
                     }
                     slotIndex++;
