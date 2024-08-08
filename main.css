@@ -774,8 +774,11 @@
 }
 
 .wrapper .bag slots-container .slot .prize {
-  width: 100%;
-  height: 100%;
+  vertical-align: middle;
+  width: auto;
+  height: auto;
+  max-width: 90%;
+  max-height: 90%;
   object-fit: contain; /* Ensures the image fits within the slot */
 }
 
