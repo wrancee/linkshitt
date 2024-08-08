@@ -715,7 +715,7 @@
   display: grid;
   grid-template-columns: repeat(7, 65px); /* 7 columns of 40px each */
   grid-template-rows: repeat(4, 65px); /* 4 rows of 40px each */
-  gap: 3px 20px; /* 20px vertical gap, 5px horizontal gap */
+  gap: 20px 3px;
   position: absolute;
   top: 180px; /* Adjust to set the distance from the top of the .bag */
   left: 126px; /* Center horizontally within the .bag */
@@ -727,6 +727,17 @@
   height: 65px;
   background-color: transparent;
   cursor: pointer;
+}
+.wrapper .bag slots-container .slot.active {
+  border: 2px solid yellow; /* Highlight active slot */
+}
+.wrapper .bag slots-container .slot .prize {
+  vertical-align: middle;
+  width: auto;
+  height: auto;
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain; /* Ensures the image fits within the slot */
 }
 
 .wrapper .bag .nextPage{
@@ -767,19 +778,6 @@
   width: 90px;
   height: 90px;
   margin: 0 auto;
-}
-
-.wrapper .bag slots-container .slot.active {
-  border: 2px solid yellow; /* Highlight active slot */
-}
-
-.wrapper .bag slots-container .slot .prize {
-  vertical-align: middle;
-  width: auto;
-  height: auto;
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain; /* Ensures the image fits within the slot */
 }
 
 .wrapper .bag .redeem-btn {
