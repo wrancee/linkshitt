@@ -140,15 +140,16 @@ $(function () {
 
     $('.slot').click(function () {
         const slotIndex = $(this).data('slot-index');
-
-        if ($(this).hasClass('active')) {
-            $(this).removeClass('active');
-            activeSlots.delete(slotIndex);
-        } else {
-            $('.slot').removeClass('active');
-            activeSlots.clear();
-            $(this).addClass('active');
-            activeSlots.add(slotIndex);
+        if ($(this).find('.prize').length > 0) {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                activeSlots.delete(slotIndex);
+            } else {
+                $('.slot').removeClass('active');
+                activeSlots.clear();
+                $(this).addClass('active');
+                activeSlots.add(slotIndex);
+            }
         }
     });
 
