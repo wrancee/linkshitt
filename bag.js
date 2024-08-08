@@ -241,9 +241,6 @@ $(function () {
             const imgName = prizeImageMap[prize.prizeId];
             if (imgName) {
                 for (let i = 0; i < prize.amount; i++) {
-                // Debugging output to check slot allocation
-                    console.log(`Placing prize ${prize.prizeId} in slot ${slotIndex}`);
-
                     if (slotIndex >= start && slotIndex < end) {
                         const slot = slots[slotIndex % itemsPerPage];
                         if (!slot) return; // 确保不会超出可用的格子数
