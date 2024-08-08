@@ -145,6 +145,8 @@ $(function () {
             $(this).removeClass('active');
             activeSlots.delete(slotIndex);
         } else {
+            $('.slot').removeClass('active');
+            activeSlots.clear();
             $(this).addClass('active');
             activeSlots.add(slotIndex);
         }
@@ -249,8 +251,8 @@ $(function () {
                         const img = document.createElement('img');
                         img.src = imgName;
                         img.className = 'prize';
-                        img.style.width = '63px'; // 调整奖品图片的大小
-                        img.style.height = '63px'; // 调整奖品图片的大小
+                        img.style.width = '65px'; // 调整奖品图片的大小
+                        img.style.height = '65px'; // 调整奖品图片的大小
                         slot.appendChild(img);
                     }
                     slotIndex++;
