@@ -248,8 +248,8 @@ $(function () {
                         const img = document.createElement('img');
                         img.src = imgName;
                         img.className = 'prize';
-                        img.style.width = '65px'; // 调整奖品图片的大小
-                        img.style.height = '65px'; // 调整奖品图片的大小
+                        img.style.width = '62px'; // 调整奖品图片的大小
+                        img.style.height = '62px'; // 调整奖品图片的大小
                         slot.appendChild(img);
                     }
                     slotIndex++;
