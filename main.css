@@ -715,7 +715,7 @@
   display: grid;
   grid-template-columns: repeat(7, 63px); /* 7 columns of 40px each */
   grid-template-rows: repeat(4, 63px); /* 4 rows of 40px each */
-  gap: 2px 18px;
+  gap: 1px 19px;
   position: absolute;
   top: 180px; /* Adjust to set the distance from the top of the .bag */
   left: 126px; /* Center horizontally within the .bag */
@@ -723,8 +723,8 @@
 
 .wrapper .bag .slots-container .slot {
   position: relative;
-  width: 63px;
-  height: 63px;
+  width: 65px;
+  height: 65px;
   background-color: transparent;
   cursor: pointer;
 }
