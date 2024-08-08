@@ -713,9 +713,9 @@
 
 .wrapper .bag .slots-container {
   display: grid;
-  grid-template-columns: repeat(7, 65px); /* 7 columns of 40px each */
-  grid-template-rows: repeat(4, 65px); /* 4 rows of 40px each */
-  gap: 3px 20px;
+  grid-template-columns: repeat(7, 63px); /* 7 columns of 40px each */
+  grid-template-rows: repeat(4, 63px); /* 4 rows of 40px each */
+  gap: 2px 18px;
   position: absolute;
   top: 180px; /* Adjust to set the distance from the top of the .bag */
   left: 126px; /* Center horizontally within the .bag */
@@ -723,15 +723,15 @@
 
 .wrapper .bag .slots-container .slot {
   position: relative;
-  width: 65px;
-  height: 65px;
+  width: 63px;
+  height: 63px;
   background-color: transparent;
   cursor: pointer;
 }
-.wrapper .bag slots-container .slot.active {
+.wrapper .bag .slots-container .slot.active {
   border: 2px solid yellow; /* Highlight active slot */
 }
-.wrapper .bag slots-container .slot .prize {
+.wrapper .bag .slots-container .slot .prize {
   vertical-align: middle;
   width: auto;
   height: auto;
