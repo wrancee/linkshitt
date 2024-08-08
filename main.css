@@ -715,7 +715,7 @@
   display: grid;
   grid-template-columns: repeat(7, 65px); /* 7 columns of 40px each */
   grid-template-rows: repeat(4, 65px); /* 4 rows of 40px each */
-  gap: 20px 3px; /* 20px vertical gap, 5px horizontal gap */
+  gap: 3px 20px; /* 20px vertical gap, 5px horizontal gap */
   position: absolute;
   top: 180px; /* Adjust to set the distance from the top of the .bag */
   left: 126px; /* Center horizontally within the .bag */
