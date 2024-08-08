@@ -134,7 +134,7 @@ async function queryUserPrizeAccount(packId = '', prizeId = '') {
     }
 }
 
-//点击奖品兑换功能
+
 $(function () {
     let activeSlots = new Set(); // Keep track of activated slots
 
@@ -148,31 +148,8 @@ $(function () {
             $(this).addClass('active');
             activeSlots.add(slotIndex);
         }
-
-        updateRedeemButtonState();
     });
 
-    function updateRedeemButtonState() {
-        const redeemBtn = $('#redeem-btn');
-
-        if (activeSlots.size > 0) {
-            redeemBtn.prop('disabled', false);
-            redeemBtn.addClass('active');
-        } else {
-            redeemBtn.prop('disabled', true);
-            redeemBtn.removeClass('active');
-        }
-    }
-
-    $('#redeem-btn').click(function () {
-        if (activeSlots.size > 0) {
-            // Add your redeem logic here
-            console.log('Redeeming prizes from slots:', Array.from(activeSlots));
-        }
-    });
-});
-
-$(function () {
     let currentPage = 1;
     let totalPages = 1;
     const itemsPerPage = 28;
@@ -181,12 +158,12 @@ $(function () {
         $('.bag').removeClass('hidden');
         $('.init-box').addClass('hidden');
         try {
-            const prizes = await queryUserPrizeAccount(); // 直接调用 queryUserPrizeAccount 函数获取奖品信息
+            const prizes = await queryUserPrizeAccount(); // Fetch user prizes
             if (prizes) {
                 const totalItems = prizes.reduce((sum, prize) => sum + prize.amount, 0);
-                console.log("the total amount of prize is ",totalItems); //检查是否错误
+                console.log("Total prize amount:", totalItems); // Debugging output
                 totalPages = Math.ceil(totalItems / itemsPerPage);
-                displayPrizesInBag(prizes, currentPage); // 调用 displayPrizesInBag 函数显示奖品
+                displayPrizesInBag(prizes, currentPage); // Display prizes
                 setupPagination(prizes);
             } else {
                 console.error('Failed to fetch user prizes or no prizes available.');
@@ -197,10 +174,10 @@ $(function () {
     });
 
     function setupPagination(prizes) {
-        const prevButton = document.querySelector('#prevPage');
-        const nextButton = document.querySelector('#nextPage');
+        const prevButton = document.querySelector('.prevPage');
+        const nextButton = document.querySelector('.nextPage');
 
-        // 初始状态更新按钮
+        // Initialize button states
         updatePaginationButtons();
 
         prevButton.addEventListener('click', () => {
@@ -221,32 +198,22 @@ $(function () {
     }
 
     function updatePaginationButtons() {
-        const prevButton = document.querySelector('#prevPage');
-        const nextButton = document.querySelector('#nextPage');
+        const prevButton = document.querySelector('.prevPage');
+        const nextButton = document.querySelector('.nextPage');
 
-        // 根据当前页数更新按钮状态
-        if (currentPage === 1) {
-            prevButton.disabled = true;
-        } else {
-            prevButton.disabled = false;
-        }
-
-        if (currentPage === totalPages) {
-            nextButton.disabled = true;
-        } else {
-            nextButton.disabled = false;
-        }
+        // Update button states based on the current page
+        prevButton.disabled = currentPage === 1;
+        nextButton.disabled = currentPage === totalPages;
     }
 
-    // 显示奖品到背包中的函数
     function displayPrizesInBag(prizes, page) {
         const backpackContainer = document.querySelector('.wrapper .bag .slots-container');
 
-        // 清除格子中之前的内容
+        // Clear any previous content in the slots
         const slots = backpackContainer.querySelectorAll('.slot');
         slots.forEach(slot => slot.innerHTML = '');
 
-        // 奖品ID和对应图片的映射
+        // Map prize IDs to their corresponding images
         const prizeImageMap = {
             "01J4F71XJAX34SXTE3551SB47Q": "assets/100.png",
             "01J4KZYYKBR7ZYMC9C2Y8C15ZE": "assets/300.png",
@@ -255,26 +222,25 @@ $(function () {
             "01J4KZYYKFFZAHZKC4GVSFNB40": "assets/1500.png"
         };
 
-        // 计算当前页的奖品起始和结束索引
+        // Calculate the prize start and end index for the current page
         const start = (page - 1) * itemsPerPage;
         const end = start + itemsPerPage;
         let slotIndex = 0;
 
-        // 遍历奖品并放置到背包的格子中
+        // Place prizes into the slots
         prizes.forEach(prize => {
             const imgName = prizeImageMap[prize.prizeId];
-            console.log("prize each is", prize) //检查
             if (imgName) {
                 for (let i = 0; i < prize.amount; i++) {
                     if (slotIndex >= start && slotIndex < end) {
                         const slot = slots[slotIndex % itemsPerPage];
-                        if (!slot) return; // 确保不会超出可用的格子数
+                        if (!slot) return; // Ensure we do not exceed available slots
 
                         const img = document.createElement('img');
                         img.src = imgName;
                         img.className = 'prize';
-                        img.style.width = '40px'; // 调整奖品图片的大小
-                        img.style.height = '40px'; // 调整奖品图片的大小
+                        img.style.width = '40px'; // Adjust prize image size
+                        img.style.height = '40px'; // Adjust prize image size
                         slot.appendChild(img);
                     }
                     slotIndex++;
